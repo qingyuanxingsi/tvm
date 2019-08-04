@@ -95,7 +95,8 @@ print(mod.astext(show_meta_data=False))
 # in this example. Then the machine code will be generated as the module library.
 
 opt_level = 3
-target = tvm.target.cuda()
+# target = tvm.target.cuda()
+target = tvm.target.arm_cpu()
 with relay.build_config(opt_level=opt_level):
     graph, lib, params = relay.build_module.build(
         mod, target, params=params)
@@ -106,7 +107,8 @@ with relay.build_config(opt_level=opt_level):
 # Now we can create graph runtime and run the module on Nvidia GPU.
 
 # create random input
-ctx = tvm.gpu()
+# ctx = tvm.gpu()
+ctx = tvm.cpu()
 data = np.random.uniform(-1, 1, size=data_shape).astype("float32")
 # create module
 module = graph_runtime.create(graph, lib, ctx)
